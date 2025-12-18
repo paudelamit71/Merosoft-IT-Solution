@@ -1188,5 +1188,32 @@
             });
         })();
     </script>
+    <script>
+        // Dynamic CTA gradient: rotate color pairs every few seconds
+        (function () {
+            const btn = document.querySelector('.cta-button');
+            if (!btn) return;
+
+            const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            if (prefersReduced) return;
+
+            const pairs = [
+                ['#0ea5ff', '#7c3aed'],
+                ['#7c3aed', '#ff7a7a'],
+                ['#00f2fe', '#7c3aed'],
+                ['#ff7a7a', '#ffb84d']
+            ];
+
+            let idx = 0;
+            function applyPair(i) {
+                const [a,b] = pairs[i % pairs.length];
+                btn.style.setProperty('--cta-1', a);
+                btn.style.setProperty('--cta-2', b);
+            }
+
+            applyPair(0);
+            setInterval(() => { idx++; applyPair(idx); }, 4200);
+        })();
+    </script>
 </body>
 </html>
