@@ -478,14 +478,13 @@
         /* About stats cards - centered and larger */
         .about-stats {
             display: grid;
+            grid-column: 1 / -1; /* span whole about-content grid so block is centered */
             grid-template-columns: repeat(3, minmax(220px, 1fr));
             gap: 1.25rem;
-            margin-top: 2rem;
+            margin: 2rem auto 0; /* center horizontally */
             align-items: stretch;
             justify-items: center; /* center each card */
             max-width: 1100px;
-            margin-left: auto;
-            margin-right: auto;
         }
 
         .stat-card {
