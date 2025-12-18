@@ -434,6 +434,11 @@
             align-items: center;
         }
 
+        /* If about-text spans whole grid, ensure readable max-width */
+        .about-text {
+            max-width: 900px;
+        }
+
         .about-text h2 {
             font-size: 2rem;
             margin-bottom: 1rem;
@@ -747,41 +752,14 @@
         <div class="container">
             <h2 class="section-title">About Us</h2>
             <div class="about-content">
-                <div class="about-text">
+                <div class="about-text" style="grid-column: 1 / -1;">
                     <h2>Leading Innovation in Technology</h2>
-                    <p>Merosoft IT Solution has been at the forefront of software development and IT services for over a decade. Our team of expert developers, architects, and consultants work tirelessly to deliver solutions that drive real business value.</p>
-                    <p>We specialize in leveraging cutting-edge technologies to solve complex business challenges. From startups to enterprise-level organizations, we've helped hundreds of clients transform their operations through intelligent technology solutions.</p>
-                    <p>Our commitment to excellence, innovation, and customer success makes us the trusted partner for digital transformation.</p>
-                </div>
-                <div class="about-image" aria-hidden="true">
-                    <!-- Inline tech illustration (SVG) to match the site's theme -->
-                    <svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Technology illustration">
-                        <defs>
-                            <linearGradient id="lg" x1="0" x2="1">
-                                <stop offset="0%" stop-color="#00b4ff" />
-                                <stop offset="100%" stop-color="#7c3aed" />
-                            </linearGradient>
-                        </defs>
-                        <rect width="800" height="500" rx="12" fill="url(#lg)" opacity="0.12" />
-                        <!-- nodes -->
-                        <g fill="#fff" fill-opacity="0.9">
-                            <circle cx="120" cy="120" r="6" />
-                            <circle cx="220" cy="80" r="4" />
-                            <circle cx="420" cy="200" r="5" />
-                            <circle cx="640" cy="140" r="6" />
-                            <circle cx="560" cy="320" r="4" />
-                        </g>
-                        <!-- connections -->
-                        <g stroke="#fff" stroke-opacity="0.12" stroke-width="2" fill="none">
-                            <path d="M120 120 L220 80 L420 200 L560 320" />
-                            <path d="M220 80 L340 40 L640 140" />
-                        </g>
-                        <!-- device mockups -->
-                        <g transform="translate(480,220) scale(0.7)">
-                            <rect x="0" y="0" width="140" height="220" rx="12" fill="#0ea5ff" opacity="0.95" />
-                            <rect x="8" y="14" width="124" height="192" rx="8" fill="#fff" opacity="0.95" />
-                        </g>
-                    </svg>
+                    <p>Merosoft IT Solution has been at the forefront of software development and IT services for over a decade. Our multidisciplinary team of engineers, designers, and strategists partner with clients to craft resilient, scalable, and user-centric products that solve real business problems.</p>
+                    <p>We build systems that are secure by design, highly maintainable, and designed for growth. Our work spans core-banking platforms, mobile applications, cloud migrations, and enterprise integrations — each delivering measurable outcomes such as reduced operational cost, faster time-to-market, and improved customer satisfaction.</p>
+                    <p>Beyond technology, we focus on people and processes: aligning engineering with domain expertise, following strong delivery practices, and embedding observability and automation so teams move faster without compromising reliability.</p>
+                    <p>We also invest in localization and accessibility — including Nepali language support for our Pearls+ platform — to ensure our solutions meet the needs of diverse user bases and regulatory environments.</p>
+                    <p>Whether you are a cooperative looking for a core-banking solution, a startup building your MVP, or an enterprise modernizing legacy systems, Merosoft is committed to a partnership approach: clear communication, transparent roadmaps, and measurable success criteria.</p>
+                    <p>Get in touch to learn how we can help accelerate your transformation and turn complex challenges into competitive advantage.</p>
                 </div>
             </div>
         </div>
