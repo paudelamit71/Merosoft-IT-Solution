@@ -342,7 +342,12 @@
 
         .cta-button {
             display: inline-block;
-            background: linear-gradient(90deg, var(--primary), var(--accent));
+            /* dynamic gradient using CSS variables so JS can update colors */
+            --cta-1: var(--primary, #0ea5ff);
+            --cta-2: var(--accent, #7c3aed);
+            background: linear-gradient(90deg, var(--cta-1), var(--cta-2));
+            background-size: 200% 200%;
+            animation: btnGradient 6s ease infinite;
             color: white;
             padding: 0.8rem 2.2rem;
             text-decoration: none;
@@ -361,7 +366,17 @@
             box-shadow: 0 18px 40px rgba(14,165,255,0.18);
         }
 
-        @keyframes fadeInUp {
+        @keyframes btnGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Respect reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+            .cta-button { animation: none; }
+        }
+\n        @keyframes fadeInUp {
             from {
                 opacity: 0;
                 transform: translateY(30px);
