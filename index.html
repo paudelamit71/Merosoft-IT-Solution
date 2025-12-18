@@ -475,6 +475,69 @@
             color: #555;
         }
 
+        /* About stats cards */
+        .about-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-top: 1.75rem;
+            align-items: stretch;
+        }
+
+        .stat-card {
+            background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(255,255,255,0.94));
+            border: 1px solid rgba(20,24,30,0.04);
+            padding: 1.1rem 1.25rem;
+            border-radius: 12px;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            box-shadow: 0 8px 20px rgba(11,22,34,0.04);
+            transition: transform 260ms cubic-bezier(.2,.9,.2,1), box-shadow 260ms ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 18px 40px rgba(12,34,56,0.08);
+        }
+
+        .stat-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 10px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg,#ffd27a,#ffb84d);
+            color: #222;
+            font-weight: 700;
+            flex-shrink: 0;
+            box-shadow: 0 6px 16px rgba(255,165,0,0.08);
+        }
+
+        .stat-body {
+            flex: 1 1 auto;
+        }
+
+        .stat-number {
+            font-size: 1.45rem;
+            font-weight: 800;
+            color: #222;
+            line-height: 1;
+        }
+
+        .stat-label {
+            display: block;
+            margin-top: 6px;
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        @media (max-width: 860px) {
+            .about-stats { grid-template-columns: 1fr; }
+            .stat-card { width: 100%; }
+        }
+
         .about-image {
             width: 100%;
             height: 400px;
@@ -784,6 +847,32 @@
                     <p>We also invest in localization and accessibility — including Nepali language support for our Pearls+ platform — to ensure our solutions meet the needs of diverse user bases and regulatory environments.</p>
                     <p>Whether you are a cooperative looking for a core-banking solution, a startup building your MVP, or an enterprise modernizing legacy systems, Merosoft is committed to a partnership approach: clear communication, transparent roadmaps, and measurable success criteria.</p>
                     <p>Get in touch to learn how we can help accelerate your transformation and turn complex challenges into competitive advantage.</p>
+                </div>
+                <!-- About statistics -->
+                <div class="about-stats" aria-hidden="false">
+                    <div class="stat-card">
+                        <div class="stat-icon" aria-hidden="true">🏆</div>
+                        <div class="stat-body">
+                            <div class="stat-number" data-target="1000">0</div>
+                            <span class="stat-label">Satisfied Clients</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon" aria-hidden="true">🚀</div>
+                        <div class="stat-body">
+                            <div class="stat-number" data-target="350">0</div>
+                            <span class="stat-label">Successful Projects</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon" aria-hidden="true">🤝</div>
+                        <div class="stat-body">
+                            <div class="stat-number" data-target="120">0</div>
+                            <span class="stat-label">Partners & Integrations</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1215,6 +1304,48 @@
 
             applyPair(0);
             setInterval(() => { idx++; applyPair(idx); }, 4200);
+        })();
+    </script>
+    <script>
+        // Count-up animation for About stats (runs when section enters view)
+        (function () {
+            const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            const stats = Array.from(document.querySelectorAll('.stat-number'));
+            if (!stats.length) return;
+
+            function format(n) { return n >= 1000 ? (n/1000).toFixed(0) + 'k+' : n + '+'; }
+
+            function animateCount(el, target, duration=1400) {
+                if (prefersReduced) { el.textContent = format(target); return; }
+                const start = 0;
+                const startTime = performance.now();
+                function tick(now) {
+                    const elapsed = now - startTime;
+                    const t = Math.min(1, elapsed / duration);
+                    const eased = t<.5 ? 2*t*t : -1+(4-2*t)*t; // easeInOut quad-ish
+                    const value = Math.floor(start + (target - start) * eased);
+                    el.textContent = value >= 1000 ? Math.floor(value/1000) + 'k+' : value;
+                    if (t < 1) requestAnimationFrame(tick); else {
+                        // final
+                        el.textContent = target >= 1000 ? Math.floor(target/1000) + 'k+' : target;
+                    }
+                }
+                requestAnimationFrame(tick);
+            }
+
+            const aboutSection = document.getElementById('about');
+            if (!aboutSection) return;
+
+            const obs = new IntersectionObserver((entries, o) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        stats.forEach(s => animateCount(s, parseInt(s.getAttribute('data-target') || '0'), 1400));
+                        o.disconnect();
+                    }
+                });
+            }, { threshold: 0.2 });
+
+            obs.observe(aboutSection);
         })();
     </script>
 </body>
