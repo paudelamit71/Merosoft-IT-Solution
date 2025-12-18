@@ -343,8 +343,9 @@
         .cta-button {
             display: inline-block;
             /* dynamic gradient using CSS variables so JS can update colors */
-            --cta-1: var(--primary, #0ea5ff);
-            --cta-2: var(--accent, #7c3aed);
+            /* default to warm orange -> light yellow */
+            --cta-1: #ffb84d;
+            --cta-2: #ffd27a;
             background: linear-gradient(90deg, var(--cta-1), var(--cta-2));
             background-size: 200% 200%;
             animation: btnGradient 6s ease infinite;
@@ -363,7 +364,8 @@
 
         .cta-button:hover {
             transform: translateY(-4px);
-            box-shadow: 0 18px 40px rgba(14,165,255,0.18);
+            /* warmer hover shadow to match orange/yellow theme */
+            box-shadow: 0 18px 40px rgba(255,139,0,0.16);
         }
 
         @keyframes btnGradient {
@@ -1198,10 +1200,10 @@
             if (prefersReduced) return;
 
             const pairs = [
-                ['#0ea5ff', '#7c3aed'],
-                ['#7c3aed', '#ff7a7a'],
-                ['#00f2fe', '#7c3aed'],
-                ['#ff7a7a', '#ffb84d']
+                ['#ffb84d', '#ffd27a'], // warm orange -> light yellow
+                ['#ff7a7a', '#ffb84d'],
+                ['#ffb84d', '#ff7a7a'],
+                ['#00f2fe', '#7c3aed']
             ];
 
             let idx = 0;
