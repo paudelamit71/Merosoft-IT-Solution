@@ -130,9 +130,45 @@
         }
 
         .logo {
-            font-size: 1.8rem;
-            font-weight: bold;
-            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.15rem;
+            font-weight: 800;
+            letter-spacing: 0.6px;
+            font-family: 'Inter', 'Segoe UI', Roboto, system-ui, -apple-system, 'Helvetica Neue', Arial;
+            text-transform: none;
+            color: white; /* fallback */
+        }
+
+        .logo-mark {
+            width: 40px;
+            height: 40px;
+            flex: 0 0 40px;
+            border-radius: 8px;
+            box-shadow: 0 6px 18px rgba(2,6,23,0.28);
+        }
+
+        .logo-text {
+            background: linear-gradient(90deg, #00b4ff, #7c3aed);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: transparent;
+            font-weight: 800;
+            font-size: 1.05rem;
+            line-height: 1;
+        }
+
+        .logo-accent {
+            background: linear-gradient(90deg, #7c3aed, #ff7a7a);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: transparent;
+            margin-left: 6px;
+            font-weight: 900;
+            font-size: 0.95rem;
         }
 
         nav ul {
