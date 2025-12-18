@@ -434,21 +434,27 @@
             align-items: center;
         }
 
-        /* If about-text spans whole grid, ensure readable max-width */
+        /* About text: span full width, centered, and readable */
         .about-text {
+            grid-column: 1 / -1;
             max-width: 900px;
+            margin: 0 auto 1.25rem;
+            text-align: center;
+            font-size: 1.05rem;
+            line-height: 1.85;
+            color: #39404a;
+            padding: 0 1rem;
         }
 
         .about-text h2 {
             font-size: 2rem;
-            margin-bottom: 1rem;
-            color: #667eea;
+            margin-bottom: 0.75rem;
+            color: #2b3440;
         }
 
         .about-text p {
             margin-bottom: 1rem;
-            color: #666;
-            line-height: 1.9;
+            color: #555;
         }
 
         .about-image {
@@ -752,7 +758,7 @@
         <div class="container">
             <h2 class="section-title">About Us</h2>
             <div class="about-content">
-                <div class="about-text" style="grid-column: 1 / -1;">
+                <div class="about-text">
                     <h2>Leading Innovation in Technology</h2>
                     <p>Merosoft IT Solution has been at the forefront of software development and IT services for over a decade. Our multidisciplinary team of engineers, designers, and strategists partner with clients to craft resilient, scalable, and user-centric products that solve real business problems.</p>
                     <p>We build systems that are secure by design, highly maintainable, and designed for growth. Our work spans core-banking platforms, mobile applications, cloud migrations, and enterprise integrations — each delivering measurable outcomes such as reduced operational cost, faster time-to-market, and improved customer satisfaction.</p>
