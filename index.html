@@ -147,6 +147,7 @@
             flex: 0 0 40px;
             border-radius: 8px;
             box-shadow: 0 6px 18px rgba(2,6,23,0.28);
+            transition: transform 220ms cubic-bezier(.2,.9,.2,1);
         }
 
         .logo-text {
@@ -169,6 +170,11 @@
             margin-left: 6px;
             font-weight: 900;
             font-size: 0.95rem;
+        }
+
+        /* subtle hover lift for logo */
+        .logo:hover .logo-mark {
+            transform: translateY(-3px) rotate(-6deg);
         }
 
         nav ul {
@@ -686,7 +692,21 @@
     <!-- Header -->
     <header>
         <div class="container">
-            <div class="logo">Merosoft IT Solution</div>
+            <div class="logo" aria-label="Merosoft IT Solution">
+                <!-- Logo mark: rounded chip with gradient -->
+                <svg class="logo-mark" viewBox="0 0 32 32" role="img" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="logoGrad1" x1="0" x2="1">
+                            <stop offset="0%" stop-color="#00b4ff" />
+                            <stop offset="100%" stop-color="#7c3aed" />
+                        </linearGradient>
+                    </defs>
+                    <rect width="32" height="32" rx="6" fill="url(#logoGrad1)" />
+                    <path d="M9 10h14M9 16h14" stroke="#fff" stroke-opacity="0.18" stroke-width="1.6" stroke-linecap="round"/>
+                    <circle cx="24" cy="8" r="2" fill="#fff" opacity="0.9"/>
+                </svg>
+                <span class="logo-text">Merosoft<span class="logo-accent">IT</span> Solution</span>
+            </div>
             <button id="nav-toggle" class="hamburger" aria-label="Toggle navigation" aria-expanded="false" aria-controls="main-nav">
                 <span class="hamburger-box">
                     <span class="hamburger-inner"></span>
