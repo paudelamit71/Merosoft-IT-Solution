@@ -769,7 +769,7 @@
                 <ul>
                     <li><a href="#home">Home</a></li>
                     <li><a href="#services">Services</a></li>
-                    <li><a href="https://github.com/paudelamit71/Merosoft-IT-Solution/raw/main/Pearls%2B.pdf" target="_blank" rel="noopener noreferrer">Download Catalog</a></li>
+                    <li><a id="download-catalog" href="https://raw.githubusercontent.com/paudelamit71/Merosoft-IT-Solution/main/Pearls%2B.pdf" target="_blank" rel="noopener noreferrer">Download Catalog</a></li>
                     <li><a href="#about">About</a></li>
                     <li><a href="#contact">Contact</a></li>
                 </ul>
@@ -1315,6 +1315,44 @@
 
             applyPair(0);
             setInterval(() => { idx++; applyPair(idx); }, 4200);
+        })();
+    </script>
+    <script>
+        // Force-download the catalog by fetching as blob and triggering a download.
+        (function () {
+            const link = document.getElementById('download-catalog');
+            if (!link) return;
+
+            // Use the href (raw githubusercontent) to fetch the file
+            const url = link.href;
+
+            link.addEventListener('click', async (e) => {
+                // try to fetch and force download via blob to avoid browser PDF preview
+                try {
+                    e.preventDefault();
+                    link.setAttribute('aria-disabled', 'true');
+                    link.style.pointerEvents = 'none';
+
+                    const resp = await fetch(url);
+                    if (!resp.ok) throw new Error('Network response was not ok');
+                    const blob = await resp.blob();
+                    const blobUrl = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = blobUrl;
+                    // Suggest a filename for the download
+                    a.download = 'Merosoft-Catalog.pdf';
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+                    URL.revokeObjectURL(blobUrl);
+                } catch (err) {
+                    // fallback: open a new tab to the file URL
+                    window.open(url, '_blank', 'noopener');
+                } finally {
+                    link.removeAttribute('aria-disabled');
+                    link.style.pointerEvents = '';
+                }
+            });
         })();
     </script>
     <script>
