@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Staff Login — Merosoft IT Solution</title>
+  <meta name="theme-color" content="#0ea5ff">
+  <style>
+    :root{--bg:#f8fafc;--card:#fff;--primary:#0ea5ff;--accent:#7c3aed}
+    *{box-sizing:border-box}
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;margin:0;background:var(--bg);color:#222}
+    header{background:linear-gradient(90deg,var(--primary),var(--accent));padding:1rem 0;color:#fff}
+    .container{max-width:1100px;margin:0 auto;padding:0 1.5rem;display:flex;align-items:center;justify-content:space-between}
+    .logo{font-weight:800;font-size:1.1rem}
+    nav a{color:rgba(255,255,255,0.95);text-decoration:none;margin-left:1rem}
+
+    main{display:grid;place-items:center;min-height:70vh;padding:2rem}
+    .card{background:var(--card);padding:2rem;border-radius:12px;box-shadow:0 12px 40px rgba(2,6,23,0.08);width:100%;max-width:420px}
+    h1{margin:0 0 0.5rem 0;font-size:1.25rem}
+    p.sub{margin:0 0 1.1rem 0;color:#556}
+    .form-group{margin-bottom:0.9rem}
+    label{display:block;font-size:0.95rem;margin-bottom:0.35rem}
+    input[type="text"],input[type="password"]{width:100%;padding:0.75rem;border:1px solid #e6e6e9;border-radius:8px}
+    .actions{display:flex;gap:0.75rem;align-items:center;margin-top:0.6rem}
+    .btn{background:linear-gradient(90deg,#ffb84d,#ffd27a);border:none;padding:0.7rem 1rem;border-radius:10px;color:#111;font-weight:700;cursor:pointer}
+    .btn.secondary{background:transparent;border:1px solid #ddd;color:#333}
+    .msg{margin-top:0.8rem;padding:0.6rem;border-radius:8px;font-size:0.95rem}
+    .msg.success{background:#ecfdf5;color:#065f46}
+    .msg.error{background:#fff5f5;color:#9f1239}
+    .small{font-size:0.85rem;color:#667}
+    .links{margin-top:1rem;text-align:center}
+    a.text-link{color:var(--primary);text-decoration:none}
+    footer{padding:2rem 0;text-align:center;color:#777}
+
+    @media(max-width:520px){.container{padding:0 1rem}.card{padding:1.2rem}}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="logo">Merosoft IT Solution</div>
+      <nav aria-label="top navigation">
+        <a href="/">Home</a>
+        <a href="/index.html#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="card" role="region" aria-labelledby="login-title">
+      <h1 id="login-title">Staff Login</h1>
+      <p class="sub">Enter your staff credentials to access the administration panel.</p>
+
+      <form id="login-form">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input id="username" name="username" type="text" autocomplete="username" required>
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input id="password" name="password" type="password" autocomplete="current-password" required>
+        </div>
+        <div class="actions">
+          <button type="submit" class="btn">Sign in</button>
+          <button type="button" id="cancel" class="btn secondary">Cancel</button>
+        </div>
+      </form>
+
+      <div id="message" aria-live="polite" style="display:none"></div>
+
+      <div class="links small">
+        <a class="text-link" href="/">Back to website</a>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    &copy; 2025 Merosoft IT Solution
+  </footer>
+
+  <script>
+    // Simple client-side login simulation. Replace with server-side auth in production.
+    (function(){
+      const form = document.getElementById('login-form');
+      const msg = document.getElementById('message');
+      const cancel = document.getElementById('cancel');
+
+      cancel.addEventListener('click', ()=>{ window.location.href = '/'; });
+
+      form.addEventListener('submit', function(e){
+        e.preventDefault();
+        msg.style.display = 'none';
+        const user = form.username.value.trim();
+        const pass = form.password.value;
+
+        if(!user || !pass){
+          showMessage('Please enter both username and password.','error');
+          return;
+        }
+
+        // Demo: accept any non-empty credentials but show success/failure demo
+        // For a stricter demo, uncomment the check below.
+        // if(user==='staff' && pass==='password123') { success... }
+
+        // simulate network delay
+        showMessage('Signing in...', '');
+        setTimeout(()=>{
+          // simple simulated check: username contains 'staff' or role
+          if(user.toLowerCase().includes('staff') || user.toLowerCase().includes('admin')){
+            showMessage('Welcome, ' + user + '. Redirecting to staff dashboard...', 'success');
+            setTimeout(()=>{ window.location.href = '/'; }, 1200);
+          } else {
+            showMessage('Invalid staff credentials. Use your staff username.', 'error');
+          }
+        }, 900);
+      });
+
+      function showMessage(text, type){
+        msg.style.display = 'block';
+        msg.textContent = text;
+        msg.className = 'msg ' + (type === 'success' ? 'success' : type === 'error' ? 'error' : '');
+      }
+    })();
+  </script>
+</body>
+</html>
