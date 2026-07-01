@@ -891,6 +891,167 @@
                 animation: none;
             }
         }
+        /* --------------------------------------------------
+           Our Products Section (added)
+           Uses existing theme variables, glassmorphism cards,
+           responsive grid, equal heights, and enter/hover animations
+         -------------------------------------------------- */
+
+        .products {
+            padding: 4rem 0;
+            background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+            color: #e9eef8;
+        }
+
+        .products .section-title {
+            color: #ffffff;
+            margin-bottom: 0.4rem;
+        }
+
+        .products .section-subtitle {
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto 2.4rem;
+            color: rgba(255,255,255,0.86);
+            font-size: 1.05rem;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.6rem;
+            align-items: stretch;
+        }
+
+        @media (max-width: 1100px) { .products-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 680px) { .products-grid { grid-template-columns: 1fr; } }
+
+        .product-card {
+            background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 14px;
+            padding: 1.6rem;
+            box-shadow: 0 8px 30px rgba(2,6,23,0.32);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            transition: transform 320ms cubic-bezier(.2,.9,.2,1), box-shadow 320ms ease, border-color 320ms ease;
+            position: relative;
+            overflow: hidden;
+            min-height: 380px; /* equal-ish card heights */
+            will-change: transform;
+            backdrop-filter: blur(6px) saturate(1.05);
+        }
+
+        .product-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            padding: 1px;
+            pointer-events: none;
+            background: linear-gradient(90deg, rgba(0,217,255,0.06), rgba(183,0,255,0.06));
+            mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            transition: box-shadow 320ms ease, opacity 320ms ease;
+            opacity: 0;
+        }
+
+        .product-card:hover,
+        .product-card:focus-within {
+            transform: translateZ(0) translateY(-10px);
+            box-shadow: 0 30px 60px rgba(11,22,34,0.45);
+        }
+
+        .product-card:hover::before,
+        .product-card:focus-within::before {
+            opacity: 1;
+            box-shadow: 0 0 32px rgba(0,217,255,0.12), 0 0 48px rgba(183,0,255,0.08) inset;
+        }
+
+        .product-head {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .product-icon {
+            width: 72px;
+            height: 72px;
+            flex: 0 0 72px;
+            border-radius: 14px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, rgba(0,217,255,0.95), rgba(183,0,255,0.92));
+            box-shadow: 0 8px 22px rgba(0,217,255,0.14);
+            transition: transform 320ms ease, box-shadow 320ms ease;
+        }
+
+        .product-icon svg { width: 42px; height: 42px; fill: white; transition: transform 360ms ease; }
+
+        .product-card:hover .product-icon { transform: translateY(-6px) rotate(-6deg) scale(1.04); box-shadow: 0 20px 46px rgba(0,217,255,0.18); }
+
+        .product-title { font-size: 1.15rem; font-weight: 700; color: #fff; }
+
+        .product-desc { color: rgba(255,255,255,0.9); line-height: 1.5; font-size: 0.98rem; }
+
+        .product-features {
+            margin-top: 6px;
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 8px 12px;
+            list-style: none;
+            padding: 0;
+            color: rgba(255,255,255,0.92);
+            flex: 1 1 auto;
+            align-content: start;
+        }
+
+        .product-features li {
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+            font-size: 0.92rem;
+        }
+
+        .check {
+            width: 18px; height: 18px; flex: 0 0 18px; display: inline-block;
+            color: var(--primary);
+        }
+
+        .product-footer {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+
+        .product-cta {
+            padding: 10px 14px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: 700;
+            box-shadow: 0 10px 30px rgba(0,217,255,0.12);
+            transition: transform 200ms ease, box-shadow 200ms ease;
+        }
+
+        .product-cta:hover,
+        .product-cta:focus {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 48px rgba(183,0,255,0.16);
+        }
+
+        /* Fade-up reveal for each card (used by JS) */
+        .products .product-card { opacity: 0; transform: translateY(18px); transition: opacity 620ms ease, transform 620ms cubic-bezier(.2,.9,.2,1); }
+        .products .product-card.in-view { opacity: 1; transform: none; }
+
     </style>
 </head>
 <body>
@@ -933,6 +1094,208 @@
                 <span id="hero-typer-text" aria-live="polite"></span>
             </div>
             <button class="cta-button" onclick="document.getElementById('contact').scrollIntoView({behavior: 'smooth'})">Get Started</button>
+        </div>
+    </section>
+
+    <!-- Our Products Section (NEW) -->
+    <section id="products" class="products" aria-labelledby="products-title">
+        <div class="container">
+            <h2 id="products-title" class="section-title">Our Products</h2>
+            <p class="section-subtitle">Powerful Software Solutions Designed for Modern Organizations</p>
+
+            <div class="products-grid" role="list">
+
+                <!-- 1: Cooperative Banking Software -->
+                <article class="product-card" role="listitem" aria-labelledby="p1-title">
+                    <div class="product-head">
+                        <div class="product-icon" aria-hidden="true">
+                            <!-- banking/coins svg -->
+                            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                <path d="M12 2L2 7l10 5 10-5-10-5zm0 7.2L5.6 7 12 4.8 18.4 7 12 9.2zM4 10v7a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7" />
+                                <path d="M8 14h8v2H8z" opacity="0.9" />
+                            </svg>
+                        </div>
+                        <div>
+                            <div id="p1-title" class="product-title">Cooperative Banking Software</div>
+                            <div class="product-desc">Complete digital solution for cooperatives, SACCOs, microfinance institutions, and credit unions.</div>
+                        </div>
+                    </div>
+                    <ul class="product-features" aria-label="Features for Cooperative Banking">
+                        <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>Member Management</li>
+                        <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>Savings &amp; Loans</li>
+                        <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>Accounting</li>
+                        <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>Share Management</li>
+                        <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>Financial Reports</li>
+                        <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>SMS Notifications</li>
+                    </ul>
+                    <div class="product-footer">
+                        <span aria-hidden="true"></span>
+                        <a class="product-cta" href="#contact" aria-label="Learn more about Cooperative Banking">Learn More</a>
+                    </div>
+                </article>
+
+                <!-- 2: School Management Software -->
+                <article class="product-card" role="listitem" aria-labelledby="p2-title">
+                    <div class="product-head">
+                        <div class="product-icon" aria-hidden="true">
+                            <!-- school svg -->
+                            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                <path d="M12 2L1 8l11 6 9-4.91V20h2V8L12 2z" />
+                                <path d="M11 13h2v6h-2z" opacity="0.9" />
+                            </svg>
+                        </div>
+                        <div>
+                            <div id="p2-title" class="product-title">School Management Software</div>
+                            <div class="product-desc">Complete school automation system for educational institutions.</div>
+                        </div>
+                    </div>
+                    <ul class="product-features" aria-label="Features for School Management">
+                        <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>Student Information</li>
+                        <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>Attendance</li>
+                        <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>Examination</li>
+                        <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>Fee Management</li>
+                        <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>Teacher Management</li>
+                        <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>Parent Portal</li>
+                    </ul>
+                    <div class="product-footer">
+                        <span aria-hidden="true"></span>
+                        <a class="product-cta" href="#contact" aria-label="Learn more about School Management">Learn More</a>
+                    </div>
+                </article>
+
+                <!-- 3: Business ERP Software -->
+                <article class="product-card" role="listitem" aria-labelledby="p3-title">
+                    <div class="product-head">
+                        <div class="product-icon" aria-hidden="true">
+                            <!-- briefcase/erp svg -->
+                            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                <path d="M3 7v11a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V7H3z" />
+                                <path d="M8 7V5a4 4 0 0 1 8 0v2" opacity="0.95" />
+                            </svg>
+                        </div>
+                        <div>
+                            <div id="p3-title" class="product-title">Business ERP Software</div>
+                            <div class="product-desc">All-in-one ERP solution for businesses to manage operations efficiently.</div>
+                        </div>
+                    </div>
+                    <ul class="product-features" aria-label="Features for Business ERP">
+                        <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>Sales &amp; Purchase</li>
+                        <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>Inventory</li>
+                        <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>Accounting</li>
+                        <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>HR &amp; Payroll</li>
+                        <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>Production</li>
+                        <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>Reports &amp; Analytics</li>
+                    </ul>
+                    <div class="product-footer">
+                        <span aria-hidden="true"></span>
+                        <a class="product-cta" href="#contact" aria-label="Learn more about Business ERP">Learn More</a>
+                    </div>
+                </article>
+
+                <!-- 4: Dairy Management Software -->
+                <article class="product-card" role="listitem" aria-labelledby="p4-title">
+                    <div class="product-head">
+                        <div class="product-icon" aria-hidden="true">
+                            <!-- milk/dairy svg -->
+                            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                <path d="M12 2c-1 0-3 1-3 3s2 4 3 4 3-2 3-4-2-3-3-3z" />
+                                <path d="M6 11v7a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-7" opacity="0.95" />
+                            </svg>
+                        </div>
+                        <div>
+                            <div id="p4-title" class="product-title">Dairy Management Software</div>
+                            <div class="product-desc">Smart software for dairy farms, milk collection centers, and dairy industries.</div>
+                        </div>
+                    </div>
+                    <ul class="product-features" aria-label="Features for Dairy Management">
+                        <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>Farmer Management</li>
+                        <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>Milk Collection</li>
+                        <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>Fat/SNF Recording</li>
+                        <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>Payment Management</li>
+                        <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>Daily Milk Reports</li>
+                        <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>Inventory Management</li>
+                        <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>Billing</li>
+                        <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>Collection Centers</li>
+                        <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>Financial Reports</li>
+                        <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>SMS Notifications</li>
+                        <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>User Roles</li>
+                        <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>Cloud Backup</li>
+                    </ul>
+                    <div class="product-footer">
+                        <span aria-hidden="true"></span>
+                        <a class="product-cta" href="#contact" aria-label="Learn more about Dairy Management">Learn More</a>
+                    </div>
+                </article>
+
+                <!-- 5: Forest Management Software -->
+                <article class="product-card" role="listitem" aria-labelledby="p5-title">
+                    <div class="product-head">
+                        <div class="product-icon" aria-hidden="true">
+                            <!-- tree/forest svg -->
+                            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                <path d="M12 2C9.8 5 7 6 7 9c0 2.8 2 3 2 6h6c0-3 2-3.2 2-6 0-3-2.8-4-5-7z" />
+                                <path d="M7 20h10v2H7z" opacity="0.9" />
+                            </svg>
+                        </div>
+                        <div>
+                            <div id="p5-title" class="product-title">Forest Management Software</div>
+                            <div class="product-desc">Digital management system for community forests and forest user groups.</div>
+                        </div>
+                    </div>
+                    <ul class="product-features" aria-label="Features for Forest Management">
+                        <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>Member Records</li>
+                        <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>Forest Area Management</li>
+                        <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>Revenue Collection</li>
+                        <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>Expense Tracking</li>
+                        <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>Plantation Records</li>
+                        <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>Timber Distribution</li>
+                        <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>Meeting Records</li>
+                        <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>Asset Management</li>
+                        <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>Financial Reports</li>
+                        <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>Document Management</li>
+                        <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>User Permissions</li>
+                        <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>Dashboard &amp; Analytics</li>
+                    </ul>
+                    <div class="product-footer">
+                        <span aria-hidden="true"></span>
+                        <a class="product-cta" href="#contact" aria-label="Learn more about Forest Management">Learn More</a>
+                    </div>
+                </article>
+
+                <!-- 6: Other Software & IT Services -->
+                <article class="product-card" role="listitem" aria-labelledby="p6-title">
+                    <div class="product-head">
+                        <div class="product-icon" aria-hidden="true">
+                            <!-- tools/it services svg -->
+                            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                <path d="M4 4h16v6H4z" />
+                                <path d="M4 14h16v6H4z" opacity="0.9" />
+                            </svg>
+                        </div>
+                        <div>
+                            <div id="p6-title" class="product-title">Other Software &amp; IT Services</div>
+                            <div class="product-desc">Custom software and IT consulting for businesses, enterprises, and mission-critical operations.</div>
+                        </div>
+                    </div>
+                    <ul class="product-features" aria-label="Features for Other Software &amp; IT Services">
+                        <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>Software Development</li>
+                        <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>Web Design &amp; UI/UX</li>
+                        <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>Mobile Apps</li>
+                        <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>Cloud Solutions</li>
+                        <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>IT Support</li>
+                        <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>Data Analytics</li>
+                        <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>Custom Software</li>
+                        <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>System Integration</li>
+                        <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>Maintenance &amp; Support</li>
+                        <li><span class="check" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>API Development</li>
+                    </ul>
+                    <div class="product-footer">
+                        <span aria-hidden="true"></span>
+                        <a class="product-cta" href="#contact" aria-label="Learn more about Other Software & IT Services">Learn More</a>
+                    </div>
+                </article>
+
+            </div>
         </div>
     </section>
     <!-- Services Section -->
@@ -1322,7 +1685,7 @@
 
     <script>
         // Central hero typing effect (prominent service list) using Typed.js
-        (function () {
+        document.addEventListener('DOMContentLoaded', function () {
             const el = document.getElementById('hero-typer-text');
             if (!el) return;
 
@@ -1367,7 +1730,7 @@
                 let idx = 0;
                 setInterval(() => { el.textContent = phrases[idx % phrases.length]; idx++; }, 2000);
             }
-        })();
+        });
 
         // Service card typewriter on reveal (types each service title when Services section enters view)
         (function () {
@@ -1622,6 +1985,48 @@
         })();
     </script>
 <script>
+// Products section reveal + accessibility behaviours
+document.addEventListener('DOMContentLoaded', function () {
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const cards = Array.from(document.querySelectorAll('#products .product-card'));
+    if (!cards.length) return;
+
+    if (prefersReduced) {
+        // reveal immediately for reduced motion
+        cards.forEach(c => c.classList.add('in-view'));
+        return;
+    }
+
+    // IntersectionObserver to add .in-view when cards enter viewport
+    const obs = new IntersectionObserver((entries, o) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('in-view');
+                // subtle stagger: reveal sibling cards with small delay
+                const idx = cards.indexOf(entry.target);
+                if (idx >= 0) {
+                    for (let i = idx + 1; i < Math.min(cards.length, idx + 4); i++) {
+                        setTimeout(() => cards[i].classList.add('in-view'), (i - idx) * 120);
+                    }
+                }
+                // Keep observing to allow keyboard-focus reveal
+            }
+        });
+    }, { threshold: 0.14 });
+
+    cards.forEach(c => {
+        obs.observe(c);
+        // Keyboard accessibility: reveal when focused
+        c.addEventListener('focusin', () => c.classList.add('in-view'));
+    });
+
+    // Small performance: unobserve when all visible
+    const checkAll = () => {
+        if (cards.every(c => c.classList.contains('in-view'))) obs.disconnect();
+    };
+    setInterval(checkAll, 800);
+});
+
 document.addEventListener("DOMContentLoaded", async () => {
 
     const track = document.getElementById("clients-track");
