@@ -1627,84 +1627,62 @@ document.addEventListener("DOMContentLoaded", async () => {
     const track = document.getElementById("clients-track");
     if (!track) return;
 
-    const exts = ["webp", "png", "jpg", "jpeg", "svg"];
-    const maxCheck = 500; // Maximum files to check
+    try {
 
-    async function exists(url) {
-        return new Promise(resolve => {
-            const img = new Image();
+        const response = await fetch("clients/clients.json");
+        const images = await response.json();
 
-            img.onload = () => resolve(true);
-            img.onerror = () => resolve(false);
+        if (!images.length) return;
 
-            img.src = url;
-        });
-    }
+        const fragment = document.createDocumentFragment();
 
-    const images = [];
+        function createLogo(src) {
 
-    for (let i = 1; i <= maxCheck; i++) {
+            const img = document.createElement("img");
 
-        let found = false;
+            img.src = `clients/${src}`;
+            img.alt = "Client Logo";
 
-        for (const ext of exts) {
+            img.width = 150;
+            img.height = 80;
 
-            const path = `clients/Client${i}.${ext}`;
+            img.loading = "eager";
+            img.decoding = "async";
 
-            if (await exists(path)) {
-                images.push(path);
-                found = true;
-                break;
-            }
+            img.style.objectFit = "contain";
+
+            return img;
         }
 
-        // Stop after 10 consecutive missing images
-        if (!found && i > images.length + 10) break;
-    }
-
-    if (!images.length) {
-        console.log("No client logos found.");
-        return;
-    }
-
-    const fragment = document.createDocumentFragment();
-
-    function createLogo(src) {
-
-        const img = document.createElement("img");
-
-        img.src = src;
-        img.alt = "Client Logo";
-        img.width = 150;
-        img.height = 80;
-        img.loading = "eager";
-        img.decoding = "async";
-        img.style.objectFit = "contain";
-
-        return img;
-    }
-
-    // Original
-    images.forEach(src => fragment.appendChild(createLogo(src)));
-
-    // Duplicate
-    images.forEach(src => fragment.appendChild(createLogo(src)));
-
-    track.appendChild(fragment);
-
-    requestAnimationFrame(() => {
-
-        const firstSet = [...track.children].slice(0, images.length);
-
-        let width = 0;
-
-        firstSet.forEach(el => {
-            width += el.getBoundingClientRect().width + 40;
+        // First set
+        images.forEach(file => {
+            fragment.appendChild(createLogo(file));
         });
 
-        track.style.setProperty("--marquee-width", width + "px");
+        // Duplicate for seamless loop
+        images.forEach(file => {
+            fragment.appendChild(createLogo(file));
+        });
 
-    });
+        track.appendChild(fragment);
+
+        requestAnimationFrame(() => {
+
+            const firstSet = [...track.children].slice(0, images.length);
+
+            let width = 0;
+
+            firstSet.forEach(el => {
+                width += el.getBoundingClientRect().width + 40;
+            });
+
+            track.style.setProperty("--marquee-width", width + "px");
+
+        });
+
+    } catch (err) {
+        console.error("Unable to load clients.json", err);
+    }
 
 });
 </script>
