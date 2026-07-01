@@ -89,7 +89,6 @@
             z-index: 100;
             box-shadow: 0 6px 30px rgba(0,217,255,0.15);
             border-bottom: 1px solid rgba(255,255,255,0.08);
-            contain: layout style paint;
             will-change: box-shadow;
         }
 
@@ -189,6 +188,14 @@
             cursor: pointer;
             padding: 8px;
             border-radius: 8px;
+        }
+
+        .mobile-nav-close {
+            display: none;
+        }
+
+        .mobile-nav-overlay {
+            display: none;
         }
 
         .hamburger:focus {
@@ -744,20 +751,28 @@
 
         /* Responsive */
         @media (max-width: 768px) {
-            /* Show hamburger and hide the inline nav by default on small screens */
+            /* Mobile drawer navigation */
             .hamburger {
                 display: inline-flex;
                 align-items: center;
                 justify-content: center;
-                width: 40px;
-                height: 40px;
-                background: rgba(255,255,255,0.12);
+                width: 42px;
+                height: 42px;
+                background: rgba(255,255,255,0.16);
                 color: white;
-                margin-left: auto; /* push to right */
-                margin-right: 1rem; /* breathing space from edge */
-                border-radius: 10px;
-                z-index: 120; /* above the dropdown */
-                border: 1px solid rgba(255,255,255,0.12);
+                margin-left: auto;
+                margin-right: 0;
+                border-radius: 12px;
+                z-index: 135;
+                position: relative;
+                border: 1px solid rgba(255,255,255,0.18);
+                box-shadow: 0 12px 26px rgba(0,0,0,0.16);
+                transition: background 320ms ease, transform 320ms ease, border-color 320ms ease;
+            }
+
+            .hamburger:hover,
+            .hamburger:focus-visible {
+                background: rgba(255,255,255,0.24);
             }
 
             .hamburger-box {
@@ -773,49 +788,97 @@
             }
 
             nav {
-                position: relative;
-                width: 100%;
-                min-width: 0;
+                position: fixed;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                width: min(80vw, 320px);
+                background: rgba(9,12,28,0.98);
+                box-shadow: 32px 0 64px rgba(0,0,0,0.42);
+                padding: 1.5rem 1.25rem;
+                transform: translateX(-100%);
+                transition: transform 360ms ease;
+                z-index: 1500;
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: stretch;
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
+                will-change: transform;
+            }
+
+            nav.open {
+                transform: translateX(0);
+            }
+
+            .mobile-nav-close {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                position: absolute;
+                top: 1rem;
+                right: 1rem;
+                width: 38px;
+                height: 38px;
+                border: none;
+                background: rgba(255,255,255,0.08);
+                color: white;
+                border-radius: 10px;
+                font-size: 1.35rem;
+                cursor: pointer;
+                transition: background 240ms ease;
+            }
+
+            .mobile-nav-close:hover,
+            .mobile-nav-close:focus-visible {
+                background: rgba(255,255,255,0.14);
             }
 
             nav ul {
                 flex-direction: column;
-                gap: 0.85rem;
-                display: flex; /* keep layout but hide visually using opacity/transform to allow transitions */
-                opacity: 0; /* hidden by default on small screens */
-                transform: translateY(-8px);
-                pointer-events: none;
-                background: linear-gradient(180deg, rgba(12,34,56,0.96), rgba(16,24,33,0.94));
-                backdrop-filter: blur(10px);
-                padding: 0.85rem;
-                margin-top: 0.5rem;
-                border-radius: 12px;
-                position: absolute;
-                right: 1rem;
-                top: calc(100% + 8px); /* position just below header/container */
-                min-width: 180px;
-                max-width: min(240px, 90vw);
-                z-index: 110;
-                border: 1px solid rgba(255,255,255,0.08);
-                box-shadow: 0 18px 40px rgba(0,0,0,0.18);
-                transition: opacity 260ms ease, transform 260ms cubic-bezier(.2,.9,.2,1);
+                gap: 1rem;
+                margin: 3.5rem 0 0;
+                padding: 0;
+                max-height: calc(100vh - 140px);
+                overflow-y: auto;
             }
 
             nav ul li a {
-                font-size: 0.95rem;
-                padding: 0.45rem 0;
+                font-size: 1rem;
+                padding: 0.85rem 0;
+                display: block;
             }
 
-            /* When nav has the open class, show the list */
-            nav.open ul {
+            nav ul li a.active {
+                color: #7edfff;
+            }
+
+            .mobile-nav-overlay {
+                position: fixed;
+                inset: 0;
+                background: rgba(0,0,0,0.65);
+                opacity: 0;
+                visibility: hidden;
+                transition: opacity 360ms ease, visibility 360ms ease;
+                z-index: 1450;
+                pointer-events: none;
+            }
+
+            .mobile-nav-overlay.active {
                 opacity: 1;
-                transform: translateY(0);
+                visibility: visible;
                 pointer-events: auto;
+            }
+
+            body.menu-open {
+                overflow: hidden;
             }
 
             .hero-content h1 {
                 font-size: 2rem;
             }
+        }
 
             .hero-content p {
                 font-size: 1rem;
@@ -1068,6 +1131,7 @@
                 </span>
             </button>
             <nav id="main-nav">
+                <button type="button" class="mobile-nav-close" aria-label="Close navigation">×</button>
                 <ul>
                     <li><a href="#home">Home</a></li>
                     <li><a href="#services">Services</a></li>
@@ -1083,6 +1147,7 @@
             </nav>
         </div>
     </header>
+    <div id="mobile-nav-overlay" class="mobile-nav-overlay" aria-hidden="true"></div>
 
     <!-- Hero Section -->
     <section id="home" class="hero">
@@ -1776,40 +1841,63 @@
         })();
     </script>
     <script>
-        // Mobile nav toggle
+        // Mobile nav drawer
         (function () {
             const btn = document.getElementById('nav-toggle');
             const nav = document.getElementById('main-nav');
-            if (!btn || !nav) return;
+            const overlay = document.getElementById('mobile-nav-overlay');
+            const closeBtn = nav ? nav.querySelector('.mobile-nav-close') : null;
+            if (!btn || !nav || !overlay || !closeBtn) return;
 
             function setExpanded(exp) {
                 btn.setAttribute('aria-expanded', String(exp));
             }
 
+            function openMenu() {
+                nav.classList.add('open');
+                overlay.classList.add('active');
+                btn.classList.add('active');
+                document.body.classList.add('menu-open');
+                overlay.setAttribute('aria-hidden', 'false');
+                setExpanded(true);
+            }
+
+            function closeMenu() {
+                nav.classList.remove('open');
+                overlay.classList.remove('active');
+                btn.classList.remove('active');
+                document.body.classList.remove('menu-open');
+                overlay.setAttribute('aria-hidden', 'true');
+                setExpanded(false);
+            }
+
             btn.addEventListener('click', function (e) {
                 e.stopPropagation();
-                const open = nav.classList.toggle('open');
-                btn.classList.toggle('active', open);
-                setExpanded(open);
+                if (nav.classList.contains('open')) {
+                    closeMenu();
+                } else {
+                    openMenu();
+                }
             });
 
-            // Close nav when a link is clicked (mobile)
+            closeBtn.addEventListener('click', function (e) {
+                e.stopPropagation();
+                closeMenu();
+            });
+
+            overlay.addEventListener('click', closeMenu);
+
             nav.querySelectorAll('a').forEach(a => {
                 a.addEventListener('click', () => {
                     if (nav.classList.contains('open')) {
-                        nav.classList.remove('open');
-                        btn.classList.remove('active');
-                        setExpanded(false);
+                        closeMenu();
                     }
                 });
             });
 
-            // Close on outside click
-            document.addEventListener('click', (e) => {
-                if (!nav.contains(e.target) && !btn.contains(e.target) && nav.classList.contains('open')) {
-                    nav.classList.remove('open');
-                    btn.classList.remove('active');
-                    setExpanded(false);
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape' && nav.classList.contains('open')) {
+                    closeMenu();
                 }
             });
         })();
